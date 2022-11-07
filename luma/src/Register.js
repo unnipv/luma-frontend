@@ -12,7 +12,8 @@ class Register extends Component{
       designation:'',
       department:'',
       gender:'',
-      dob:''
+      dob:new Date(),
+      doj:new Date()
     };
   }
 
@@ -26,16 +27,18 @@ class Register extends Component{
       designation:e.target.designation.value,
       department:e.target.department.value,
       gender:e.target.gender.value,
-      dob:e.target.dob.value
+      dob:e.target.dob.value,
+      doj:e.target.doj.value
     })
     var payload = {
-      empid:this.state.empid,
+      employeeId:this.state.empid,
       password:this.state.password,
-      emp_name:this.state.emp_name,
+      employeeName:this.state.emp_name,
       designation:this.state.designation,
       department:this.state.department,
       gender:this.state.gender,
-      dob:this.state.dob
+      dateOfBirth:this.state.dob,
+      dateOfJoining:this.state.doj
     }
 
     // axios.post(postURL, payload)
@@ -51,7 +54,7 @@ class Register extends Component{
           <div className="Register">
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
-                <label htmlFor="register">Employee ID</label>
+                <label htmlFor="empid">Employee ID</label>
                 <input type="text" name="empid" />
               </div>
               <div className="input-group">
@@ -59,24 +62,28 @@ class Register extends Component{
                 <input type="password" name="password" />
               </div>
               <div className="input-group">
-                <label htmlFor="password">Name</label>
+                <label htmlFor="emp_name">Name</label>
                 <input type="password" name="emp_name" />
               </div>
               <div className="input-group">
-                <label htmlFor="password">Designation</label>
+                <label htmlFor="designation">Designation</label>
                 <input type="password" name="designation" />
               </div>
               <div className="input-group">
-                <label htmlFor="password">Department</label>
+                <label htmlFor="department">Department</label>
                 <input type="password" name="department" />
               </div>
               <div className="input-group">
-                <label htmlFor="password">Gender</label>
+                <label htmlFor="gender">Gender</label>
                 <input type="password" name="gender" />
               </div>
               <div className="input-group">
-                <label htmlFor="password">Date of Birth</label>
+                <label htmlFor="dob">Date of Birth</label>
                 <input type="date" name="dob" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="doj">Date of Birth</label>
+                <input type="date" name="doj" />
               </div>
               <button className="primary">Register</button>
             </form>
