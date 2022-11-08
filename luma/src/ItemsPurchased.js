@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ItemService from './service/ItemService';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,49 +11,23 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-  
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-  
-var postURL = "";
-// var getURL = "";
-
 class ItemsPurchased extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-        items: [],
-        empDesignation: "",
-        empDepartment: ""
+        items: []
     }
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
-    console.log(e.target.empid.value);
-    var payload = {
-      "empid":this.state.empid,
-    }
-    axios.post(postURL, payload);
+  componentDidMount(){
 
-    if (!e.target.empid.value) {
-        alert("Employee ID is required");
-    }
+    var empID = localStorage.getItem('empId');
 
-    ItemService.getDetails().then((res) => {
+    ItemService.getDetails(empID).then((res) => {
+        // console.log(res.data);
         this.setState({
-            items: res.data.items,
-            empDesignation: res.data.empDesignation,
-            empDepartment: res.data.empDepartment
+            items: res.data
         })
     })
   }
@@ -69,21 +43,17 @@ class ItemsPurchased extends Component {
     return (
       <div>
         <h1>Items Purchased</h1>
-        <form className="form" onSubmit={this.handleSubmit}>
-          <div className="input-group" style={{margin: "5px"}}>
-            <label htmlFor="empid">Employee ID</label>
-            <input type="text" name="empid" />
-          </div>
-          <button className="primary">Submit</button>
-        </form>
 
         <div>
             <Grid style={this.gridStyle}>
-                DESIGNATION: {this.state.empDesignation}
+                EMPLOYEE ID: {localStorage.getItem('empId')}
             </Grid>
             <Grid style={this.gridStyle}>
-                DEPARTMENT: {this.state.empDepartment}
-            </Grid>            
+                DESIGNATION: {localStorage.getItem('designation')}
+            </Grid>
+            <Grid style={this.gridStyle}>
+                DEPARTMENT: {localStorage.getItem('department')}
+            </Grid>
         </div>
 
         <div>
@@ -91,7 +61,7 @@ class ItemsPurchased extends Component {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                 <TableRow>
-                    <TableCell>Issue_id</TableCell>
+                    <TableCell>Issue Id</TableCell>
                     <TableCell>Item Description</TableCell>
                     <TableCell>Item make</TableCell>
                     <TableCell>Item category</TableCell>
@@ -99,18 +69,18 @@ class ItemsPurchased extends Component {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {rows.map((row) => (
+                {this.state.items.map((row) => (
                     <TableRow
-                    key={row.name}
+                    key={row.issue_id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                     <TableCell component="th" scope="row">
-                        {row.name}
+                        {row.issue_id}
                     </TableCell>
-                    <TableCell>{row.calories}</TableCell>
-                    <TableCell>{row.fat}</TableCell>
-                    <TableCell>{row.carbs}</TableCell>
-                    <TableCell>{row.protein}</TableCell>
+                    <TableCell>{row.item_description}</TableCell>
+                    <TableCell>{row.item_make}</TableCell>
+                    <TableCell>{row.item_category}</TableCell>
+                    <TableCell>{row.item_valuation}</TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
@@ -124,3 +94,11 @@ class ItemsPurchased extends Component {
 }
 
 export default ItemsPurchased;
+
+/*<form className="form" onSubmit={this.handleSubmit}>
+          <div className="input-group" style={{margin: "5px"}}>
+            <label htmlFor="empid">Employee ID</label>
+            <input type="text" name="empid" />
+          </div>
+          <button className="primary">Submit</button>
+        </form>*/
