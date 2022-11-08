@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ItemService from './service/ItemService';
+import ItemService from './ItemService';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
