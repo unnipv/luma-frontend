@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 var categories = ['table','chair','cupboard'];
-const categoryURL ='';
-const itemMakeURL = '';
-const allItemsURL = '';
+const categoryURL ='http://localhost:8080/api/item_category';
+const itemMakeURL = 'http://localhost:8080/api/item_make';
+const allItemsURL = 'http://localhost:8080/api/all_items';
 var itemMakes = ['wood','steel'];
 var item = {"item_id":"it01",
 "item_description":"abcdefg",
