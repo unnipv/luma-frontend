@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link, Navigate } from "react-router-dom";
 
 
 var categories = ['table','chair','cupboard'];
@@ -43,7 +44,8 @@ class ApplyLoan extends React.Component {
       make:'',
       itemID:null,
       description:'',
-      itemValue:0
+      itemValue:0,
+      isSubmit:false
     };
     this.handleCategory = this.handleCategory.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -73,6 +75,7 @@ class ApplyLoan extends React.Component {
     }
     else {
       alert('Applied for a loan for item: ' + this.state.description );
+      this.setState({isSubmit:true})
       var payload = {
         "empId":this.state.empId,
         "itemID":this.state.itemID,
@@ -87,6 +90,11 @@ class ApplyLoan extends React.Component {
   }
 
   render() {
+    if(this.state.isSubmit){
+      return(
+        <Navigate to="/home" replace={true} /> 
+      );
+    }
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="input-group">
@@ -115,7 +123,7 @@ class ApplyLoan extends React.Component {
           <label htmlFor="itemValue">Item Value</label>
           <input type="text" name="itemValue" value={this.state.itemValue} readOnly/>
         </div>
-        <input type="submit" value="Submit" />
+        <button className = "primary" type="submit">Submit</button>
       </form>
     );
   }

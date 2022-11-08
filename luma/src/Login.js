@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { Link, Navigate } from "react-router-dom";
 import axios from 'axios';
 import App from "./App";
 import Register from "./Register";
 import applyLoan from "./ApplyLoan";
 
 var getURL = "";
+
 class Login extends Component {
 
   constructor(props){
@@ -14,8 +16,6 @@ class Login extends Component {
       password:'',
       loginmessage:'',
       isLogin:false,
-      registerButton:false,
-      registerPage:[],
       employee:[]
     }
   }
@@ -24,17 +24,6 @@ class Login extends Component {
     this.setState({isLogin:loginState, employee:employee}); 
        }; 
   
-  handleClick = e => {
-    e.preventDefault();
-    var registerPage =[];
-    // alert("Goes to registration page");
-    registerPage.push(<Register appContext={this.props.appContext} key={"login-screen"}/>)
-    this.setState({
-      registerPage:registerPage,
-      registerButton:true,
-    })
-  };     
-
   handleIdChange = e=>{
     this.setState({
       empId: e.target.value
@@ -51,11 +40,11 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target.empId.value);
     this.setState({
       empId:e.target.empId.value,
       password:e.target.password.value
     })
+    console.log(this.state.empId);
     var payload = {
       "employeeId":this.state.empId,
       "password":this.state.password
@@ -76,20 +65,20 @@ class Login extends Component {
       alert("Password is required");
     } else if (this.state.isLogin) {
       alert("Successfully logged in");
-      localStorage.setItem('employee', this.state.employee)
-      e.target.empId.value = "";
-      e.target.password.value = "";
+      localStorage.setItem('employee', this.state.employee);
     } else {
       this.changeState(false);
       alert("Wrong empId or password combination");
-      this.handleClick(e);
     }
   };
 
   render() {
-    var isRegisterClicked = this.state.registerButton;
+    if (this.state.isLogin){
+      return(
+      <Navigate to="/home" replace={true} /> 
+      );
+    }
     return (
-      (!isRegisterClicked ? (
       <div className="Login">
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="input-group">
@@ -100,18 +89,14 @@ class Login extends Component {
             <label htmlFor="password">Password</label>
             <input type="password" name="password" onChange={this.handlePasswordChange} />
           </div>
-          <button className="primary">Log In</button>
+          <button className = "primary" type="submit">Log In</button>
         </form>
-        <button className="secondary" onClick={this.handleClick}>
-          Register
-        </button>
+        <div>
+          <Link to="register">
+            <button className="secondary">Register</button>
+          </Link>
+        </div>
       </div>
-      ) : (
-      <div className="Register">
-      {this.state.registerPage}
-      </div>
-    )
-    )
     );
   }
 }

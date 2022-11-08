@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Login from './Login';
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import ApplyLoan from './ApplyLoan';
 import Dashboard from './Dashboard';
+import Register from './Register';
+import LoanCardsAvailed from './LoanCardsAvailed';
+import ItemsPurchased from './ItemsPurchased';
 
 // import ItemsPurchased from './itemspur';
 class App extends Component {
@@ -16,40 +20,28 @@ class App extends Component {
       dashboard:[]
     }
   }
-  componentDidMount(){
-    var loginPage = [];
-    loginPage.push(<Login appContext={this} key={"login-screen"}/>);
-    var dashboard = [];
-    dashboard.push(<Dashboard appContext={this} key={"dashboard"}/>);
-    this.setState({
-      page:loginPage,
-      dashboard:dashboard
-  })
     //testing sadnbox code
     // var applyLoanPage = [];
     // applyLoanPage.push(<ApplyLoan appContext={this} key={"ApplyLoan"}/>);
     // this.setState({
     //   page:applyLoanPage
     // })
-
-  };
-  render() {
-    var isLoggedIn = localStorage.getItem('employee');
+  render(){
     return (
-      (isLoggedIn === null ? ( 
       <div className="App">
-        <Header title="Loan User Management Application" subtitle="Team 4" />
-        {this.state.page}
-        <Footer note="Loan User Management Application" />
-      </div>
-      ) : (
-        <div className="App">
-        <Header title="Loan User Management Application" subtitle="Team 4" />
-        {this.state.dashboard}
-        <Footer note="Loan User Management Application" />
-      </div>
-      )
-      )
+      <Header title="Loan User Management Application" subtitle="Team 4" />
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Login/>}></Route>
+          <Route path="/register" element={<Register />} ></Route>
+          <Route path="/applyloan" element={<ApplyLoan />} ></Route>
+          <Route path="/home" element={<Dashboard />} ></Route>
+          <Route path="/loans" element={<LoanCardsAvailed />} ></Route>
+          <Route path="/items" element={<ItemsPurchased />} ></Route>
+        </Routes>
+      </BrowserRouter>
+      <Footer note="Loan User Management Application" />
+    </div>
     );
   }
 }

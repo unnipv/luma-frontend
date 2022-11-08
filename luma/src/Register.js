@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Navigate, Link } from "react-router-dom";
 import Login from "./Login";
 var postURl ="";
 var getURL = "";
@@ -17,7 +18,8 @@ class Register extends Component{
       dob:new Date(),
       doj:new Date(),
       loginPage:[],
-      loginClicked:false
+      loginClicked:false,
+      isRegistered:false
     };
   }
 
@@ -32,7 +34,8 @@ class Register extends Component{
       department:e.target.department.value,
       gender:e.target.gender.value,
       dob:e.target.dob.value,
-      doj:e.target.doj.value
+      doj:e.target.doj.value,
+      isRegistered:true
     })
     var payload = {
       employeeId:this.state.empid,
@@ -53,21 +56,13 @@ class Register extends Component{
     //   })
   }
 
-  handleClick = e => {
-    e.preventDefault();
-    var loginPage =[];
-    // alert("Goes to registration page");
-    loginPage.push(<Login appContext={this.props.appContext} key={"login-screen"}/>);
-    this.setState({
-      loginClicked:true,
-      loginPage:loginPage
-    })
-  };  
-
     render() {
-        var isLoginClicked = this.state.loginClicked;
+      if(this.state.isRegistered){
+        return(
+          <Navigate to="/" replace={true} /> 
+          );
+      }
         return (
-          (!isLoginClicked ? (
           <div className="Register">
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
@@ -80,19 +75,19 @@ class Register extends Component{
               </div>
               <div className="input-group">
                 <label htmlFor="emp_name">Name</label>
-                <input type="password" name="emp_name" />
+                <input type="text" name="emp_name" />
               </div>
               <div className="input-group">
                 <label htmlFor="designation">Designation</label>
-                <input type="password" name="designation" />
+                <input type="text" name="designation" />
               </div>
               <div className="input-group">
                 <label htmlFor="department">Department</label>
-                <input type="password" name="department" />
+                <input type="text" name="department" />
               </div>
               <div className="input-group">
                 <label htmlFor="gender">Gender</label>
-                <input type="password" name="gender" />
+                <input type="text" name="gender" />
               </div>
               <div className="input-group">
                 <label htmlFor="dob">Date of Birth</label>
@@ -103,17 +98,13 @@ class Register extends Component{
                 <input type="date" name="doj" />
               </div>
               <button className="primary">Register</button>
-              <button className="secondary" onClick={this.handleClick}>
-                Log In
-              </button>
+              <div>
+                <Link to="/">
+                  <button className="secondary">Log In</button>
+                </Link>
+              </div>
             </form>
           </div>
-          ) : (
-            <div className="Login">
-            {this.state.loginPage}
-            </div>
-          )
-        )
         );
       }
 }

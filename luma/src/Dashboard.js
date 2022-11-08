@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
 
@@ -21,15 +22,21 @@ class Dashboard extends Component {
     return (
       <div>
         <h1>User Dashboard</h1>
-        <button className="secondary" onClick={this.handleClick1}>
-          View Loans
-        </button>
-        <button className="secondary" onClick={this.handleClick2}>
-          Apply for loan
-        </button>
-        <button className="secondary" onClick={this.handleClick3}>
-          View items purchased
-        </button>
+        <div>
+          <Link to="/loans">
+            <button className="secondary">View Loans</button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/applyloan">
+            <button className="secondary">Apply for Loan</button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/items">
+            <button className="secondary">View items purchased</button>
+          </Link>
+        </div>
       </div>
     )
   }
