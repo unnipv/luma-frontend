@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import Login from "./Login";
 var postURl ="";
 var getURL = "";
+
 
 class Register extends Component{
   constructor(props){
@@ -13,7 +15,9 @@ class Register extends Component{
       department:'',
       gender:'',
       dob:new Date(),
-      doj:new Date()
+      doj:new Date(),
+      loginPage:[],
+      loginClicked:false
     };
   }
 
@@ -49,8 +53,21 @@ class Register extends Component{
     //   })
   }
 
+  handleClick = e => {
+    e.preventDefault();
+    var loginPage =[];
+    // alert("Goes to registration page");
+    loginPage.push(<Login appContext={this.props.appContext} key={"login-screen"}/>);
+    this.setState({
+      loginClicked:true,
+      loginPage:loginPage
+    })
+  };  
+
     render() {
+        var isLoginClicked = this.state.loginClicked;
         return (
+          (!isLoginClicked ? (
           <div className="Register">
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
@@ -86,8 +103,17 @@ class Register extends Component{
                 <input type="date" name="doj" />
               </div>
               <button className="primary">Register</button>
+              <button className="secondary" onClick={this.handleClick}>
+                Log In
+              </button>
             </form>
           </div>
+          ) : (
+            <div className="Login">
+            {this.state.loginPage}
+            </div>
+          )
+        )
         );
       }
 }

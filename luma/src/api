@@ -1,0 +1,15 @@
+@GetMapping("/item_category")
+	public List<String> getAllItemCategories(){
+		
+		return itemService.getAllCategories();
+	}
+	
+	@GetMapping("/item_make/{category}")
+	public List<String> getAllItemMakeType(@PathVariable String category){
+		return itemService.getItemMakeByCategory(category);
+	}
+	
+	@GetMapping("/all_items/{category}/{make}")
+	public List<ItemEntity> getAllItemList(@PathVariable String category, @PathVariable String make){
+		return itemService.getItemByCategoryAndMake(category, make);
+	}

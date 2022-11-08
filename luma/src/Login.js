@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import App from "./App";
 import Register from "./Register";
+import applyLoan from "./ApplyLoan";
 
 var getURL = "";
 class Login extends Component {
@@ -9,17 +10,18 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.state={
-      userid:'',
+      empId:'',
       password:'',
       loginmessage:'',
       isLogin:false,
       registerButton:false,
-      registerPage:[]
+      registerPage:[],
+      employee:[]
     }
   }
   
-  changeState = (loginState) => {  
-    this.setState({isLogin:loginState}); 
+  changeState = (loginState, employee) => {  
+    this.setState({isLogin:loginState, employee:employee}); 
        }; 
   
   handleClick = e => {
@@ -29,40 +31,43 @@ class Login extends Component {
     registerPage.push(<Register appContext={this.props.appContext} key={"login-screen"}/>)
     this.setState({
       registerPage:registerPage,
-      registerButton:true
+      registerButton:true,
     })
   };     
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target.userid.value);
+    console.log(e.target.empId.value);
     this.setState({
-      userid:e.target.userid.value,
+      empId:e.target.empId.value,
       password:e.target.password.value
     })
     var payload = {
-      "userid":this.state.userid,
+      "empId":this.state.empId,
       "password":this.state.password
     }
 
-    // axios.post('login', payload)
-    // axios.get(getURL)
-    //   .then(res => {
-    //     const loginState = res.data;
-    //     this.changeState(loginState);
-    //   })
+    axios.post('login', payload)
+    axios.get(getURL)
+      .then(res => {
+        if(res.status === 200){
+          const loginState = true;
+          this.changeState(loginState, res.data);
+        }
+      })
 
-    if (!e.target.userid.value) {
-      alert("User ID is required");
+    if (!e.target.empId.value) {
+      alert("Emp ID is required");
     } else if (!e.target.password.value) {
       alert("Password is required");
     } else if (this.state.isLogin) {
       alert("Successfully logged in");
-      e.target.userid.value = "";
+      localStorage.setItem('employee', this.state.employee)
+      e.target.empId.value = "";
       e.target.password.value = "";
     } else {
       this.changeState(false);
-      alert("Wrong userid or password combination");
+      alert("Wrong empId or password combination");
       this.handleClick(e);
     }
   };
@@ -74,8 +79,8 @@ class Login extends Component {
       <div className="Login">
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="input-group">
-            <label htmlFor="userid">User ID</label>
-            <input type="text" name="userid" />
+            <label htmlFor="empId">Employee ID</label>
+            <input type="text" name="empId" />
           </div>
           <div className="input-group">
             <label htmlFor="password">Password</label>
@@ -87,7 +92,7 @@ class Login extends Component {
           Register
         </button>
       </div>
-    ) : (
+      ) : (
       <div className="Register">
       {this.state.registerPage}
       </div>
