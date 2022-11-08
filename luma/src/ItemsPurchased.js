@@ -11,6 +11,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+var emp = localStorage.getItem('employee');
+
 class ItemsPurchased extends Component {
 
   constructor(props){
@@ -22,7 +24,7 @@ class ItemsPurchased extends Component {
 
   componentDidMount(){
 
-    var empID = localStorage.getItem('empId');
+    var empID = emp.employee_id;
 
     ItemService.getDetails(empID).then((res) => {
         // console.log(res.data);
@@ -46,13 +48,13 @@ class ItemsPurchased extends Component {
 
         <div>
             <Grid style={this.gridStyle}>
-                EMPLOYEE ID: {localStorage.getItem('empId')}
+                EMPLOYEE ID: {emp.employee_id}
             </Grid>
             <Grid style={this.gridStyle}>
-                DESIGNATION: {localStorage.getItem('designation')}
+                DESIGNATION: {emp.designation}
             </Grid>
             <Grid style={this.gridStyle}>
-                DEPARTMENT: {localStorage.getItem('department')}
+                DEPARTMENT: {emp.department}
             </Grid>
         </div>
 
