@@ -35,6 +35,20 @@ class Login extends Component {
     })
   };     
 
+  handleIdChange = e=>{
+    this.setState({
+      empId: e.target.value
+    })
+
+  }
+
+  handlePasswordChange = e=>{
+    this.setState({
+      password: e.target.value
+    })
+
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     console.log(e.target.empId.value);
@@ -43,15 +57,15 @@ class Login extends Component {
       password:e.target.password.value
     })
     var payload = {
-      "empId":this.state.empId,
+      "employeeId":this.state.empId,
       "password":this.state.password
     }
 
-    axios.post('login', payload)
-    axios.get(getURL)
+    axios.post('http://localhost:8080/api/login', payload)
       .then(res => {
         if(res.status === 200){
           const loginState = true;
+          console.log(res.data)
           this.changeState(loginState, res.data);
         }
       })
@@ -80,11 +94,11 @@ class Login extends Component {
         <form className="form" onSubmit={this.handleSubmit}>
           <div className="input-group">
             <label htmlFor="empId">Employee ID</label>
-            <input type="text" name="empId" />
+            <input type="text" name="empId" onChange={this.handleIdChange} />
           </div>
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" onChange={this.handlePasswordChange} />
           </div>
           <button className="primary">Log In</button>
         </form>
