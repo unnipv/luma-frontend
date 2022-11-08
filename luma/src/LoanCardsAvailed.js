@@ -10,7 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-var emp = localStorage.getItem('employee');
+var emp = JSON.parse(localStorage.getItem('employee'));
 
 class LoanCardsAvailed extends Component {
 
@@ -22,7 +22,7 @@ class LoanCardsAvailed extends Component {
   }
 
   componentDidMount(){
-    var empID = emp.employee_id;
+    var empID = emp.employeeId;
     // console.log(empID);
 
     LoanService.getLoanDetails(empID).then((res) => {
@@ -39,7 +39,7 @@ class LoanCardsAvailed extends Component {
 
         <div>
             <Grid style={this.gridStyle}>
-                EMPLOYEE ID: {emp.employee_id}
+                EMPLOYEE ID: {emp.employeeId}
             </Grid>
             <Grid style={this.gridStyle}>
                 DESIGNATION: {emp.designation}

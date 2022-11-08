@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Navigate, Link } from "react-router-dom";
 import Login from "./Login";
-var postURl ="";
+const postURL ="http://localhost:8080/api/register";
 var getURL = "";
 
 
@@ -17,27 +18,14 @@ class Register extends Component{
       gender:'',
       dob:new Date(),
       doj:new Date(),
-      loginPage:[],
-      loginClicked:false,
-      isRegistered:false
+      registered:false
     };
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target.empid.value);
-    this.setState({
-      empid:e.target.empid.value,
-      password:e.target.password.value,
-      emp_name:e.target.emp_name.value,
-      designation:e.target.designation.value,
-      department:e.target.department.value,
-      gender:e.target.gender.value,
-      dob:e.target.dob.value,
-      doj:e.target.doj.value,
-      isRegistered:true
-    })
-    var payload = {
+   
+    const payload = {
       employeeId:this.state.empid,
       password:this.state.password,
       employeeName:this.state.emp_name,
@@ -47,55 +35,111 @@ class Register extends Component{
       dateOfBirth:this.state.dob,
       dateOfJoining:this.state.doj
     }
-
-    // axios.post(postURL, payload)
-    // axios.get(getURL)
-    //   .then(res => {
-    //     const loginState = res.data;
-    //     this.changeState(loginState);
-    //   })
+    console.log(payload)
+    axios.post(postURL, payload)
+      .then(res => {
+          alert("Employee Registered Successfully!");
+          this.setState({
+            registered:true
+          })
+      }).catch(err=>{
+        alert("Provide valid Employee Data");
+          this.setState({
+            registered:false
+          })
+      })
   }
 
+  onChangeEmpId = e=>{
+    this.setState({
+      empid:e.target.value
+    })
+  }
+  
+  onChangeName = e=>{
+    this.setState({
+      emp_name:e.target.value
+    })
+  }
+
+  onChangePassword = e =>{
+    this.setState({
+      password:e.target.value
+    })
+  }
+
+  onChangeDept = e =>{
+    this.setState({
+      department:e.target.value
+    })
+  }
+
+  onChangeDesignation = e =>{
+    this.setState({
+      designation:e.target.value
+    })
+  }
+
+  onChangeGender = e =>{
+    this.setState({
+      gender:e.target.value
+    })
+  }
+
+  onChangeDob = e=>{
+    this.setState({
+      dob:e.target.value
+    })
+  }
+
+  onChangeDoj = e=>{
+    this.setState({
+      doj:e.target.value
+    })
+  }
     render() {
-      if(this.state.isRegistered){
-        return(
-          <Navigate to="/" replace={true} /> 
-          );
+      if(localStorage.getItem('employee')){
+        localStorage.removeItem('employee');
+      }
+      if(this.state.registered){
+        return (
+          <Navigate to='/' replace ={true}/>
+        )
       }
         return (
           <div className="Register">
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
                 <label htmlFor="empid">Employee ID</label>
-                <input type="text" name="empid" />
+                <input type="text" name="empid" onChange={this.onChangeEmpId} />
               </div>
               <div className="input-group">
                 <label htmlFor="password">Password</label>
-                <input type="password" name="password" />
+                <input type="password" name="password" onChange={this.onChangePassword} />
               </div>
               <div className="input-group">
                 <label htmlFor="emp_name">Name</label>
-                <input type="text" name="emp_name" />
+                <input type="text" name="emp_name" onChange={this.onChangeName} />
               </div>
               <div className="input-group">
                 <label htmlFor="designation">Designation</label>
-                <input type="text" name="designation" />
+                <input type="text" name="designation" onChange={this.onChangeDesignation} />
               </div>
               <div className="input-group">
                 <label htmlFor="department">Department</label>
-                <input type="text" name="department" />
+                <input type="text" name="department" onChange={this.onChangeDept}/>
               </div>
               <div className="input-group">
                 <label htmlFor="gender">Gender</label>
-                <input type="text" name="gender" />
+                <input type="text" name="gender" onChange={this.onChangeGender}/>
               </div>
               <div className="input-group">
                 <label htmlFor="dob">Date of Birth</label>
-                <input type="date" name="dob" />
+                <input type="date" name="dob" onChange={this.onChangeDob}/>
               </div>
               <div className="input-group">
                 <label htmlFor="doj">Date of Birth</label>
-                <input type="date" name="doj" />
+                <input type="date" name="doj" onChange={this.onChangeDoj}/>
               </div>
               <button className="primary">Register</button>
               <div>

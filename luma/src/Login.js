@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { Redirect } from 'react-router'
 import axios from 'axios';
 import App from "./App";
 import Register from "./Register";
 import applyLoan from "./ApplyLoan";
-
-var getURL = "";
 
 class Login extends Component {
 
@@ -15,8 +14,7 @@ class Login extends Component {
       empId:'',
       password:'',
       loginmessage:'',
-      isLogin:false,
-      employee:[]
+      isLogin: false
     }
   }
   
@@ -40,40 +38,39 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({
-      empId:e.target.empId.value,
-      password:e.target.password.value
-    })
-    console.log(this.state.empId);
-    var payload = {
-      "employeeId":this.state.empId,
-      "password":this.state.password
-    }
-
-    axios.post('http://localhost:8080/api/login', payload)
-      .then(res => {
-        if(res.status === 200){
-          const loginState = true;
-          console.log(res.data)
-          this.changeState(loginState, res.data);
-        }
-      })
-
-    if (!e.target.empId.value) {
+    if (!this.state.empId) {
       alert("Emp ID is required");
-    } else if (!e.target.password.value) {
+    } else if (!this.state.password) {
       alert("Password is required");
-    } else if (this.state.isLogin) {
-      alert("Successfully logged in");
-      localStorage.setItem('employee', this.state.employee);
-    } else {
-      this.changeState(false);
-      alert("Wrong empId or password combination");
+    } 
+    else {
+      const payload = {
+        "employeeId":this.state.empId,
+        "password":this.state.password
+      }
+  
+      axios.post('http://localhost:8080/api/login', payload)
+        .then(res => {
+            console.log(res.data)
+            localStorage.setItem('employee', JSON.stringify(res.data));
+            this.setState({
+              isLogin: true
+            })
+          }
+
+        ).catch(err => {
+            alert("Wrong empId or password combination");
+            this.setState({
+              isLogin: false
+            })
+        })    
     }
+    
+
   };
 
   render() {
-    if (this.state.isLogin){
+    if (localStorage.getItem('employee')){
       return(
       <Navigate to="/home" replace={true} /> 
       );
