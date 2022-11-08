@@ -75,11 +75,7 @@ class ApplyLoan extends React.Component {
       alert('Applied for a loan for item: ' + this.state.description );
       var payload = {
         "empId":this.state.empId,
-        "category":this.state.category,
-        "make":this.state.make,
         "itemID":this.state.itemID,
-        "description":this.state.description,
-        "itemValue":this.state.itemValue
       }
       axios.post('loanApplication', payload);
     }
