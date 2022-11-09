@@ -10,7 +10,6 @@ import Register from './Register';
 import LoanCardsAvailed from './LoanCardsAvailed';
 import ItemsPurchased from './ItemsPurchased';
 
-// import ItemsPurchased from './itemspur';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -20,12 +19,6 @@ class App extends Component {
       dashboard: []
     }
   }
-  //testing sadnbox code
-  // var applyLoanPage = [];
-  // applyLoanPage.push(<ApplyLoan appContext={this} key={"ApplyLoan"}/>);
-  // this.setState({
-  //   page:applyLoanPage
-  // })
   render() {
     return (
       <div className="App">
