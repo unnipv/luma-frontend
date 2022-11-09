@@ -51,6 +51,7 @@ class Register extends Component{
   }
 
   onChangeEmpId = e=>{
+    console.log(e.target.value)
     this.setState({
       empid:e.target.value
     })
@@ -63,6 +64,7 @@ class Register extends Component{
   }
 
   onChangePassword = e =>{
+    console.log(e.target.value)
     this.setState({
       password:e.target.value
     })
@@ -107,7 +109,7 @@ class Register extends Component{
         )
       }
         return (
-          <div className="Register">
+          <div className="Register" style={{position:"static"}}>
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
                 <label htmlFor="empid">Employee ID</label>

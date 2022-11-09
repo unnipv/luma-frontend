@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class Dashboard extends Component {
 
@@ -19,6 +19,9 @@ class Dashboard extends Component {
   }  
 
   render() {
+    if (!localStorage.getItem('employee')){
+        return <Navigate to="/" replace = {true}/>
+    }
     return (
       <div>
         <h1>User Dashboard</h1>

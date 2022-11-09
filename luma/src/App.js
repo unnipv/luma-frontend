@@ -29,7 +29,7 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-      <Header title="Loan User Management Application" subtitle="Team 4" />
+      {/* <Header title="Loan User Management Application" subtitle="Team 4" /> */}
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login/>}></Route>
@@ -40,7 +40,7 @@ class App extends Component {
           <Route path="/items" element={<ItemsPurchased />} ></Route>
         </Routes>
       </BrowserRouter>
-      <Footer note="Loan User Management Application" />
+      {/* <Footer note="Loan User Management Application" /> */}
     </div>
     );
   }
