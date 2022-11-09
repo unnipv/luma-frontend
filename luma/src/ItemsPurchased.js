@@ -11,7 +11,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const emp = JSON.parse(localStorage.getItem('employee'));
 
 class ItemsPurchased extends Component {
 
@@ -21,13 +20,14 @@ class ItemsPurchased extends Component {
       items: [],
       categories: new Set(),
       isfilter: false,
-      category: 'ALL'
+      category: 'ALL',
+      emp : JSON.parse(localStorage.getItem('employee'))
     }
   }
 
-  componentDidMount() {
-
-    var empID = emp.employeeId;
+  componentWillMount() {
+    
+    var empID = this.state.emp.employeeId;
 
     ItemService.getDetails(empID).then((res) => {
       // console.log(res.data);
@@ -35,6 +35,8 @@ class ItemsPurchased extends Component {
         items: res.data,
         categories: new Set(res.data.map(cat => cat.item_category))
       })
+    }).catch(err=>{
+        console.log(err)
     })
   }
 
@@ -72,13 +74,13 @@ class ItemsPurchased extends Component {
 
         <div>
           <Grid style={this.gridStyle}>
-            EMPLOYEE ID: {emp.employeeId}
+            EMPLOYEE ID: {this.state.emp.employeeId}
           </Grid>
           <Grid style={this.gridStyle}>
-            DESIGNATION: {emp.designation}
+            DESIGNATION: {this.state.emp.designation}
           </Grid>
           <Grid style={this.gridStyle}>
-            DEPARTMENT: {emp.department}
+            DEPARTMENT: {this.state.emp.department}
           </Grid>
         </div>
 

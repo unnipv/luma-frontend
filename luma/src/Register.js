@@ -140,7 +140,7 @@ class Register extends Component{
                 <input type="date" name="dob" onChange={this.onChangeDob}/>
               </div>
               <div className="input-group">
-                <label htmlFor="doj">Date of Birth</label>
+                <label htmlFor="doj">Date of Joining</label>
                 <input type="date" name="doj" onChange={this.onChangeDoj}/>
               </div>
               <button className="primary">Register</button>
