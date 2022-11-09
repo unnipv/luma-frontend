@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
@@ -20,7 +20,7 @@ const applyLoanUrl = 'http://localhost:8080/api/applyforloan'
 
 
 function ApplyLoan() {
-
+  const navigate = useNavigate();
   const [categories, setcategories] = useState([]);
   const [makes, setmakes] = useState([]);
   const [items, setitems] = useState([]);
@@ -85,21 +85,16 @@ function ApplyLoan() {
       axios.post(applyLoanUrl, payload)
       .then(res=>{
         alert('Applied for a loan for item: ' + item.itemDescription);
-        return (
-          <Navigate to='/home' replace={true}/>
-        )
+        navigate('/home')
       }
 
       ).catch(err=>{
         alert("Error in processing Loan");
-        return (
-          <Navigate to='/home' replace={true}/>
-        )
+        navigate('/applyforloan')
       }
 
       )
     }
-    
   }
 
   function optionsMapper(options) {

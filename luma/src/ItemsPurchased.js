@@ -96,11 +96,3 @@ class ItemsPurchased extends Component {
 }
 
 export default ItemsPurchased;
-
-/*<form className="form" onSubmit={this.handleSubmit}>
-          <div className="input-group" style={{margin: "5px"}}>
-            <label htmlFor="empid">Employee ID</label>
-            <input type="text" name="empid" />
-          </div>
-          <button className="primary">Submit</button>
-        </form>*/
