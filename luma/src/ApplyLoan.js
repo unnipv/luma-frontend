@@ -60,7 +60,7 @@ function ApplyLoan() {
         setitems(res.data)
         console.log(res.data)
         setitem({
-          itemId : res.data[0].item_id,
+          itemId: res.data[0].item_id,
           itemDescription: res.data[0].item_description,
           itemValuation: res.data[0].item_valuation,
           issueStatus: res.data[0].issue_status
@@ -83,17 +83,17 @@ function ApplyLoan() {
       }
       console.log(payload)
       axios.post(applyLoanUrl, payload)
-      .then(res=>{
-        alert('Applied for a loan for item: ' + item.itemDescription);
-        navigate('/home')
-      }
+        .then(res => {
+          alert('Applied for a loan for item: ' + item.itemDescription);
+          navigate('/home')
+        }
 
-      ).catch(err=>{
-        alert("Error in processing Loan");
-        navigate('/applyforloan')
-      }
+        ).catch(err => {
+          alert("Error in processing Loan");
+          navigate('/applyforloan')
+        }
 
-      )
+        )
     }
   }
 
@@ -129,63 +129,69 @@ function ApplyLoan() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="input-group">
-        <label htmlFor="empid">Employee ID</label>
-        <input type="text" name="empid" value={JSON.parse(localStorage.getItem('employee')).employeeId} readOnly />
-      </div>
-      <div className="input-group">
-        <label htmlFor="category">Item Category
-          <select value={category} onChange={handleCategory} >
-            {optionsMapper(categories)}
-          </select>
-        </label>
-      </div>
-      <div className="input-group">
-        <label htmlFor="make">Item Make
-          <select value={make} onChange={handleMake} >
-            {optionsMapper(makes)}
-          </select>
-        </label>
-      </div>
+    <div style={{ height: "500px" }}>
+      <form onSubmit={handleSubmit}>
+        <div style={{display:"grid"}}>
+          <div className="input-group">
+            <label htmlFor="empid">Employee ID</label>
+            <input type="text" name="empid" value={JSON.parse(localStorage.getItem('employee')).employeeId} readOnly />
+          </div>
+          <div className="input-group" style={{display:"flex"}}>
+            <label htmlFor="category">Item Category
+              <select value={category} onChange={handleCategory} >
+                {optionsMapper(categories)}
+              </select>
+            </label>
+          </div>
+          <div className="input-group">
+            <label htmlFor="make">Item Make
+              <select value={make} onChange={handleMake} >
+                {optionsMapper(makes)}
+              </select>
+            </label>
+          </div>
+        </div>
 
-      <div>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Item Id</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Value</TableCell>
-                <TableCell>Item Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map((row) => (
-                <TableRow onClick={(e) => handleItemSelect(e, row)}
-                  key={row.item_id}
-                  sx={{
-                    '&:last-child td, &:last-child th': { border: 0 }, '&.MuiTableRow-hover': {
-                      '&:hover': {
-                        backgroundColor: 'orange',
-                      }
-                    }
-                  }} hover
-                >
-                  <TableCell component="th" scope="row">
-                    {row.item_id}
-                  </TableCell>
-                  <TableCell>{row.item_description}</TableCell>
-                  <TableCell>{row.item_valuation}</TableCell>
-                  <TableCell>{row.issue_status}</TableCell>
+        <div>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Item Id</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell>Item Status</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <button className="primary" type="submit">Apply for Loan</button>
-    </form>
+              </TableHead>
+              <TableBody>
+                {items.map((row) => (
+                  <TableRow onClick={(e) => handleItemSelect(e, row)}
+                    key={row.item_id}
+                    sx={{
+                      '&:last-child td, &:last-child th': { border: 0 }, '&.MuiTableRow-hover': {
+                        '&:hover': {
+                          backgroundColor: 'orange',
+                        }
+                      }
+                    }} hover
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.item_id}
+                    </TableCell>
+                    <TableCell>{row.item_description}</TableCell>
+                    <TableCell>{row.item_valuation}</TableCell>
+                    <TableCell>{row.issue_status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <button className="primary" type="submit" style={{ marginBottom: "50px" }}>Apply for Loan</button>
+        </div>
+
+      </form>
+    </div>
+
   );
 }
 

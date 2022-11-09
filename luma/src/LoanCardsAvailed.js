@@ -34,7 +34,7 @@ class LoanCardsAvailed extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{height:"450px"}}>
         <h1>Loan Cards Availed</h1>
 
         <div>

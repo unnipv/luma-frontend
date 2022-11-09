@@ -109,7 +109,7 @@ class Register extends Component{
         )
       }
         return (
-          <div className="Register" style={{position:"static"}}>
+          <div className="Register" style={{height:"500px"}}>
             <form className="form" onSubmit={this.handleSubmit}>
               <div className="input-group">
                 <label htmlFor="empid">Employee ID</label>
